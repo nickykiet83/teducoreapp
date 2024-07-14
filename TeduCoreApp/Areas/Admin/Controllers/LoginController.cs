@@ -45,7 +45,7 @@ public class LoginController : Controller
         if (result.Succeeded)
         {
             _logger.LogInformation("User logged in");
-            return new OkObjectResult(new GenericResult(true));
+            return new OkObjectResult(new GenericResult());
         }
 
         if (!result.IsLockedOut) return new ObjectResult(new GenericResult(false, "Invalid login attempt"));
