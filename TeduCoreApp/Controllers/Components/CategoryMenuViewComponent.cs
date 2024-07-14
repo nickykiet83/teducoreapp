@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TeduCoreApp.Application.Interfaces;
-using TeduCoreApp.Application.ViewModels.Product;
-using TeduCoreApp.Data.Entities;
 using TeduCoreApp.Infrastructure.Enums;
 
 namespace TeduCoreApp.Controllers.Components
@@ -20,6 +16,7 @@ namespace TeduCoreApp.Controllers.Components
             _productCategoryService = productCategoryService;
             _memoryCache = memoryCache;
         }
+        
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var categories = _memoryCache.GetOrCreate(CacheKeys.ProductCategories, entry => {

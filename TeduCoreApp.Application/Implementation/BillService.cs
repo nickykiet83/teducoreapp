@@ -48,6 +48,7 @@ namespace TeduCoreApp.Application.Implementation
             {
                 var product = _productRepository.FindById(detail.ProductId);
                 detail.Price = product.Price;
+                detail.Product = null; // set null to avoid add new product
             }
             order.BillDetails = orderDetails;
             _orderRepository.Add(order);

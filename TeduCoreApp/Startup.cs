@@ -49,8 +49,11 @@ namespace TeduCoreApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                o => o.MigrationsAssembly("TeduCoreApp.Data.EF")));
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                        o => o.MigrationsAssembly("TeduCoreApp.Data.EF"));
+                    options.EnableSensitiveDataLogging();
+                });
 
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
@@ -164,24 +167,24 @@ namespace TeduCoreApp
                   opts.SupportedUICultures = supportedCultures;
               });
 
-            services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
-            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
+            services.AddScoped(typeof(IUnitOfWork), typeof(EFUnitOfWork));
+            services.AddScoped(typeof(IRepository<,>), typeof(EFRepository<,>));
             //Services
-            services.AddTransient<IProductCategoryService, ProductCategoryService>();
-            services.AddTransient<IFunctionService, FunctionService>();
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IBillService, BillService>();
-            services.AddTransient<IBlogService, BlogService>();
-            services.AddTransient<ICommonService, CommonService>();
-            services.AddTransient<IFeedbackService, FeedbackService>();
-            services.AddTransient<IContactService, ContactService>();
-            services.AddTransient<IPageService, PageService>();
-            services.AddTransient<IReportService, ReportService>();
-            services.AddTransient<IAnnouncementService, AnnouncementService>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<IFunctionService, FunctionService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IBillService, BillService>();
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<ICommonService, CommonService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IPageService, PageService>();
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IAnnouncementService, AnnouncementService>();
 
-            services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
 
             services.AddSignalR();
         }

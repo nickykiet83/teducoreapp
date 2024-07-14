@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TeduCoreApp.Models;
 using TeduCoreApp.Utilities.Constants;
-using Microsoft.AspNetCore.Http;
 using TeduCoreApp.Extensions;
 using TeduCoreApp.Application.Interfaces;
 using TeduCoreApp.Application.ViewModels.Product;
 using TeduCoreApp.Data.Enums;
-using System.Security.Claims;
 using TeduCoreApp.Services;
 using Microsoft.Extensions.Configuration;
 
@@ -47,10 +44,8 @@ namespace TeduCoreApp.Controllers
         {
             var model = new CheckoutViewModel();
             var session = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.CartSession);
-            if (session.Any(x => x.Color == null || x.Size == null))
-            {
+            if (session == null || session.Any(x => x.Color == null || x.Size == null))
                 return Redirect("/cart.html");
-            }
 
             model.Carts = session;
             return View(model);

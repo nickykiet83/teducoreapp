@@ -17,6 +17,7 @@ namespace TeduCoreApp.Data.EF
         {
             _context = context;
         }
+
         public void Add(T entity)
         {
             _context.Add(entity);
@@ -24,7 +25,7 @@ namespace TeduCoreApp.Data.EF
 
         public void Dispose()
         {
-          if(_context != null)
+            if (_context != null)
             {
                 _context.Dispose();
             }
@@ -32,7 +33,7 @@ namespace TeduCoreApp.Data.EF
 
         public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> items = _context.Set<T>();
+            IQueryable<T> items = _context.Set<T>().AsNoTracking();
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties)
@@ -40,12 +41,14 @@ namespace TeduCoreApp.Data.EF
                     items = items.Include(includeProperty);
                 }
             }
+
             return items;
         }
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate,
+            params Expression<Func<T, object>>[] includeProperties)
         {
-            IQueryable<T> items = _context.Set<T>();
+            IQueryable<T> items = _context.Set<T>().AsNoTracking();
             if (includeProperties != null)
             {
                 foreach (var includeProperty in includeProperties)
@@ -53,12 +56,14 @@ namespace TeduCoreApp.Data.EF
                     items = items.Include(includeProperty);
                 }
             }
+
             return items.Where(predicate);
         }
 
         public T FindById(K id, params Expression<Func<T, object>>[] includeProperties)
         {
-            return FindAll(includeProperties).SingleOrDefault(x => x.Id.Equals(id));
+            return FindAll(includeProperties)
+                .SingleOrDefault(x => x.Id.Equals(id));
         }
 
         public T FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)

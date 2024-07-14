@@ -55,7 +55,7 @@ namespace TeduCoreApp.Data.EF
         public DbSet<WholePrice> WholePrices { get; set; }
 
         public DbSet<AdvertistmentPage> AdvertistmentPages { get; set; }
-        public DbSet<Advertistment> Advertistments { get; set; }
+        public DbSet<Advertisement> Advertistments { get; set; }
         public DbSet<AdvertistmentPosition> AdvertistmentPositions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -85,7 +85,20 @@ namespace TeduCoreApp.Data.EF
             builder.AddConfiguration(new FooterConfiguration());
             builder.AddConfiguration(new ProductTagConfiguration());
             builder.AddConfiguration(new SystemConfigConfiguration());
-            builder.AddConfiguration(new AdvertistmentPositionConfiguration());
+            builder.AddConfiguration(new AdvertisementConfiguration());
+            builder.AddConfiguration(new AdvertisementPositionConfiguration());
+            builder.AddConfiguration(new AdvertisementPageConfiguration());
+
+            builder.Entity<Announcement>()
+                .Property(x => x.Id).HasMaxLength(128)
+                ;
+            
+            builder.Entity<Function>()
+                .Property(x => x.Id).HasMaxLength(128)
+                ;
+            builder.Entity<Permission>()
+                .Property(x => x.Id).HasMaxLength(128)
+                ;
 
             //base.OnModelCreating(builder);
         }
